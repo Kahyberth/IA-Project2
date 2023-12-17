@@ -31,25 +31,20 @@ class Rules:
 
     def check_winner(self):
         board = self.board
-        points = 0
+        point = 0
         red_square = []
         blue_square = []
 
         for i in range(len(board)):
-            red_square.append(board[i][0:7])
-            blue_square.append(board[i][8:])
+            blue_square.append(board[i][0:7])
+            red_square.append(board[i][8:])
+
 
         points = {
-            # Red
-            '0': points + 5,
-            '2': points + 3,
-            '4': points + 2,
-            '6': points + 1,
-            # Blue
-            '8': points + 1,
-            '10': points + 2,
-            '12': points + 3,
-            '14': points + 5,
+            '0': point + 5,
+            '2': point + 3,
+            '4': point + 2,
+            '6': point + 1,
         }
 
         red_points = 0
@@ -58,24 +53,32 @@ class Rules:
         # i = row
         # j = column
 
-        for i in range(len(red_square)):
-            for j in range(len(red_square[i])):
-                if red_square[i][j] == '🟥' and j % 2 == 0:
-                    if not self.check_field(j):
-                        red_points += points[str(j)]
-                    red_points += points[str(j)]
-                if blue_square[i][j] == '🟦' and j % 2 == 0:
-                    if not self.check_field(j):
-                        blue_points += points[str(j)]
+        column = 0
+        for row in range(len(red_square) + 1):
+            counter = 0
+            for j in range(len(red_square)):
+                if column % 2 == 0:
+                    if red_square[j][column] == '🟥':
+                        red_points += points[str(column)]
+                    if blue_square[j][column] == '🟦':
+                        blue_points += points[str(column)]
+            column += 1
+
+        if red_points > blue_points:
+            print('Points of the red: ', red_points)
+            print('Points of the blue: ', blue_points)
+            print("Blue is the loser")
+        elif red_points == blue_points:
+            print('Points of the red: ', red_points)
+            print('Points of the blue: ', blue_points)
+            print("Draw")
+        else:
+            print('Points of the red: ', red_points)
+            print('Points of the blue: ', blue_points)
+            print("Red is the loser")
 
         return red_points, blue_points
 
-    def check_loser(self):
-        red_points, blue_points = self.check_winner()
-        if red_points > blue_points:
-            print("Blue is the loser")
-        else:
-            print("Red is the loser")
 
     def check_draw(self):
         red_points, blue_points = self.check_winner()
@@ -87,8 +90,13 @@ class Rules:
         red_square = []
         blue_square = []
         for i in range(len(board)):
-            red_square.append(board[i][0:7])
-            blue_square.append(board[i][8:])
+            blue_square.append(board[i][0:7])
+            red_square.append(board[i][8:])
+        counter = 0
+        for i in range(len(blue_square)):
+            for j in range(len(blue_square)):
+                if blue_square[i][j] == '🟥':
+                    counter += 1
 
     def check_distance(self, y1, x2, y2, number_of_movements):
         board = self.board

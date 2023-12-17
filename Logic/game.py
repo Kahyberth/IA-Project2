@@ -37,4 +37,7 @@ class Game:
     def check_distance(self, y1, x2, y2, number_of_movements):
         print(self.rules.check_distance(y1, x2, y2, number_of_movements))
 
+    def check_game_over(self):
+        print(self.rules.check_game_over())
+
 
