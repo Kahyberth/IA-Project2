@@ -17,17 +17,17 @@ class Rules:
     def move(self, x1, y1, x2, y2, number_of_movements=1):
         board = self.board
         count = 0
-
         if not self.check_movement(y2):
-            print("You can't move there")
+            return False, board, count
 
-        if self.check_distance(x2, y2, number_of_movements):
-            print("You can't move there")
+        if not self.check_distance(y1, x2, y2, number_of_movements):
+            return False, board, count
 
         board[x2][y2] = board[x1][y1]
         board[x1][y1] = '⬜'
+
         count = self.number_of_movements(x2, y2)
-        return board, count
+        return True, board, count
 
     def check_winner(self):
         board = self.board
@@ -90,9 +90,14 @@ class Rules:
             red_square.append(board[i][0:7])
             blue_square.append(board[i][8:])
 
-    def check_distance(self, x2, y2, number_of_movements):
+    def check_distance(self, y1, x2, y2, number_of_movements):
         board = self.board
-        if number_of_movements > len(board[x2][y2:]) and board[x2][y2] != '⬛':
+        distance_board = []
+        for i in range(len(board[x2][y1:y2+1])):
+            print(i)
+            if board[x2][y1:y2+1][i] != '⬛' and i != y1:
+                distance_board.append(board[x2][y1:y2+1][i])
+        if len(distance_board) > number_of_movements and board[x2][y2] != '⬛':
             return False  # You can't move there
         else:
             return True
