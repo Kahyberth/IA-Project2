@@ -33,7 +33,7 @@ class Game:
         print(number)
 
     def check_field(self, y2):
-        print(self.rules.check_field(y2))
+        print(self.rules.check_column(y2))
 
     def check_winner(self):
         print(self.rules.check_winner())

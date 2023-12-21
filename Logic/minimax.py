@@ -1,4 +1,5 @@
 import math
+import random
 
 
 def filter_valid_moves(board, validation_range):
@@ -6,16 +7,10 @@ def filter_valid_moves(board, validation_range):
     count = 0
     for i in range(len(board)):
         for j in range(len(board[0])):
-            if board[i][j] != '⬛' and board[i][j] != '🟥' and board[i][j] != '🟦' and j <= validation_range + 2 and j != 0:
+            if board[i][j] != '⬛' and board[i][j] != '🟥' and board[i][
+                j] != '🟦' and j <= validation_range + 2 and j != 0:
                 new_valid_moves.append([i, len(board[0]) - 1 - j])
                 count += 1
-    #print('------Info------')
-    #print('length of board: ', len(board))
-    #print('length of board[0]: ', len(board[0]))
-    #print('counter: ', count)
-    #print(new_valid_moves)
-    #print('----------------')
-
     return new_valid_moves
 
 
@@ -27,22 +22,17 @@ def check_best_move(board, valid_moves, index):
     count = 0
     coords = filter_valid_moves(board, valid_moves)
     for i in range(len(board)):
-        if (board[i][coords[index][1]] == '🟥' or board[i][coords[index][1]] == '🟦') and board[i][coords[index][1]] != '⬜':
+        if (board[i][coords[index][1]] == '🟥' or board[i][coords[index][1]] == '🟦') and board[i][
+            coords[index][1]] != '⬜':
             count += 1
     return count
 
 
+def column(value):
+    return random.randint(0, value)
+
+
 def minimax(board, validation_range, mark, count=0):
-
-    # red_points, blue_points = rules.check_winner()
-    # if red_points > blue_points:
-    # return {'score': -1}
-    # elif blue_points > red_points:
-    # return {'score': 1}
-    # elif blue_points == red_points:
-    # return {'score': 0}
-
-
     valid_coords = filter_valid_moves(board, validation_range)
 
     score = 0

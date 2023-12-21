@@ -1,9 +1,9 @@
 import pygame
 import time
-from Logic.minimax import minimax
+from Logic.minimax import minimax, column as column_minimax
 from Logic.rules import Rules
 
-# Inicializar pygame y el módulo mixer
+
 pygame.init()
 pygame.mixer.init()
 
@@ -27,7 +27,7 @@ WIDTH, HEIGHT = 800, 400
 ROWS, COLS = 6, 15
 SQUARE_SIZE = WIDTH // COLS
 
-# Colores
+
 WHITE = (255, 255, 255)
 BORDER_COLOR = (0, 0, 0)  # Color del borde, en este caso es verde
 
@@ -38,18 +38,18 @@ IMAGE_MAP = {
     '⬜': pygame.image.load('../Assets/Empty.png'),
 }
 
-# Cargar imagen de fondo
+
 BACKGROUND_IMAGE = pygame.image.load('../Assets/Grass.png')
 BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE,
                                           (SQUARE_SIZE, SQUARE_SIZE))  # Ajustar el tamaño de la imagen de fondo
-# Ajustar el tamaño de la imagen de fondo
+
 BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE, (SQUARE_SIZE // 2, SQUARE_SIZE // 2))
-# Cargar imagen de la muralla
+
 WALL_IMAGE = pygame.image.load('../Assets/Wall.png')
 WALL_IMAGE = pygame.transform.scale(WALL_IMAGE,
                                     (SQUARE_SIZE, SQUARE_SIZE * ROWS))  # Ajustar el tamaño de la imagen de la muralla
 
-# Inicializar pygame y crear ventana
+
 pygame.init()
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -63,7 +63,7 @@ for i in range(ROWS):
 
 dragging = None  # Variable para rastrear qué ficha se está arrastrando
 
-# Bucle principal
+
 run = True
 player_turn = True
 ai_score = 2
@@ -138,6 +138,19 @@ while run:
         best_move = minimax(board, ai_score, '🟦')
         board[best_move[0]][best_move[1]] = '🟦'
 
+        board[best_move[0]][len(board[0]) - 1 - 0] = '⬜'
+        if ai_score > 1:
+            board[best_move[0]][len(board[0]) - 1 - column_minimax(ai_score)] = '⬜'
+        ai_score = rules.number_of_movements(best_move[0], best_move[1])
+
+
+
     pygame.display.update()
 
+    if not rules.check_game_over():
+        run = False
+
+
 pygame.quit()
+
+rules.check_winner()
