@@ -86,4 +86,4 @@ def minimax(board, validation_range, mark, count=0):
                 best_score = all_test_play_infos[i]['score']
                 best_test_play = i
 
-    return all_test_play_infos[best_test_play]
+    return all_test_play_infos[best_test_play]['coords']
