@@ -55,13 +55,14 @@ class Rules:
 
         column = 0
         for row in range(len(red_square) + 1):
-            counter = 0
             for j in range(len(red_square)):
                 if column % 2 == 0:
-                    if red_square[j][column] == '🟥':
-                        red_points += points[str(column)]
-                    if blue_square[j][column] == '🟦':
-                        blue_points += points[str(column)]
+                    if not self.check_mark(red_square, '🟥'):
+                        if red_square[j][column] == '🟥':
+                            red_points += points[str(column)]
+                    if not self.check_mark(blue_square, '🟦'):
+                        if blue_square[j][column] == '🟦':
+                            blue_points += points[str(column)]
             column += 1
 
         if red_points > blue_points:
@@ -127,6 +128,17 @@ class Rules:
         for i in range(len(board)):
             if board[i][y2] != '🟥' or board[i][y2] != '🟦' and board[i][y2] == '⬜':
                 count += 1
+        if count != 6:
+            return False
+        else:
+            return True
+
+    def check_mark(self, board, mark):
+        count = 0
+        for i in range(len(board)):
+            for j in range(len(board)):
+                if board[i][j] != mark:
+                    count += 1
         if count != 6:
             return False
         else:
