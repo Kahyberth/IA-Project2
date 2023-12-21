@@ -93,11 +93,19 @@ class Rules:
         for i in range(len(board)):
             blue_square.append(board[i][0:7])
             red_square.append(board[i][8:])
-        counter = 0
+        counter_red = 0
+        counter_blue = 0
         for i in range(len(blue_square)):
             for j in range(len(blue_square)):
                 if blue_square[i][j] == '🟥':
-                    counter += 1
+                    counter_red += 1
+                if red_square[i][j] == '🟦':
+                    counter_blue += 1
+
+        if counter_red or counter_blue != 0:
+            return True  # Game continues
+        else:
+            return False  # Game over
 
     def check_distance(self, y1, x2, y2, number_of_movements):
         board = self.board
